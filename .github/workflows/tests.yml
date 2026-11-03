@@ -1,0 +1,37 @@
+
+name: Validate public-engine comparison
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install published engine and companion
+        run: python -m pip install -e '.[test]'
+      - name: Confirm package versions
+        run: |
+          python -c "from importlib.metadata import version; assert version('fp-persistence-audit') == '0.1.2'; assert version('fp-persistence-toolkit') == '0.2.0rc3'"
+          python -c "import persistence_toolkit; print(persistence_toolkit.__file__)"
+      - name: Unit and integration tests
+        run: |
+          python -m unittest discover -s tests -v 2>&1 | tee unit-tests.log
+          grep -q 'Ran 38 tests' unit-tests.log
+          ! grep -q -E 'skipped|FAILED|ERROR' unit-tests.log
+      - name: Real-engine example
+        run: python examples/public_engine_end_to_end.py
+      - name: Confirm integration tests ran
+        run: |
+          python -m unittest discover -s tests -p test_real_engine_integration.py -v 2>&1 | tee real-engine.log
+          ! grep -q 'skipped' real-engine.log
