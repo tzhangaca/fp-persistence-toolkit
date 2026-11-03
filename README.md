@@ -4,7 +4,7 @@ A Python companion to [fp-persistence-audit](https://github.com/tzhangaca/fp-per
 
 Fraud-screening models can produce similar transaction-level metrics while concentrating false-positive flags on different returning accounts. This toolkit compares entity-level recurrence on a shared set of legitimate transactions. It calls the published `fp-persistence-audit==0.1.2` engine for each audit and presents the results side by side. It does not train a fraud model or replace the underlying audit engine.
 
-This repository contains the source preview for version `0.2.0rc3`. It is not yet a tagged release or a PyPI distribution.
+The toolkit is distributed as open source through GitHub. The current package version is `0.2.0`; see GitHub Releases for tagged snapshots. It is not currently available through PyPI.
 
 ## Installation
 
@@ -74,7 +74,11 @@ False-positive flags are model outputs. They are not, by themselves, evidence of
 
 ## Development and release status
 
-The toolkit has passed automated unit and integration tests on Python 3.10–3.13, including direct integration with the published audit engine. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for release details.
+Version `0.2.0` retains the comparison code tested in the `0.2.0rc3` pre-release and adds software citation metadata. GitHub Actions runs the 38 unit and integration tests with the published audit engine on Python 3.10–3.13. Check the latest Actions run for the test outcome before using a newly tagged version. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for release details.
+
+## Citation
+
+For software citation metadata, see [CITATION.cff](CITATION.cff). The DOI will be added after Zenodo archives a tagged release.
 
 ## License
 

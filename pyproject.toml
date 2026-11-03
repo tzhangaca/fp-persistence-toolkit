@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fp-persistence-toolkit"
-version = "0.2.0rc3"
+version = "0.2.0"
 description = "Toolkit for auditing repeated false-positive concentration and comparing AI/ML fraud-screening model instances"
 readme = "README.md"
 authors = [{name = "Tongchen Zhang"}]

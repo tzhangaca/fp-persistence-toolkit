@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- Added `CITATION.cff` and consistent software citation metadata.
+- Aligned the distribution, test scripts and documentation on version `0.2.0`.
+- Updated GitHub Actions runner versions.
+- No changes to the audit estimand or comparison calculations since `0.2.0rc3`.
+
 ## 0.2.0rc3 — source preview
 
 - Renamed the repository, distribution and Python import to `fp-persistence-toolkit` and `persistence_toolkit`.
@@ -18,4 +25,4 @@
 - Changed comparisons of independently supplied JSON reports to `INDETERMINATE` when provenance cannot be independently established.
 - Added source fingerprints and checks against public audit results.
 
-These are development milestones. None of the toolkit candidates listed above was published as a tagged release at the time this source preview was prepared.
+The `0.2.0rc3` candidate was published as a GitHub pre-release before the preparation of `0.2.0`.

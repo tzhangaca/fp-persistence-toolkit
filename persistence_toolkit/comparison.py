@@ -142,7 +142,7 @@ def compare_reports(left,right, *, _verified=None):
     descriptive={"left":copy.deepcopy(L),"right":copy.deepcopy(R),"difference_in_excess_pp_left_minus_right":None}
     if overall=="COMPARABLE" and L["status"]==R["status"]=="ESTIMABLE":
         descriptive["difference_in_excess_pp_left_minus_right"]=L["excess_repeat_fp_percentage_points"]-R["excess_repeat_fp_percentage_points"]
-    return {"schema_version":"0.2.0rc3", "report_type":"DESCRIPTIVE_MODEL_INSTANCE_COMPARISON",
+    return {"schema_version":"0.2.0", "report_type":"DESCRIPTIVE_MODEL_INSTANCE_COMPARISON",
             "comparison_status":overall,
             "source_validation_status": "IN_PROCESS_SAME_FRAME" if live_verified else "UNVERIFIED_SERIALIZED_INPUT",
             "source_frame_sha256": _verified.frame_sha256 if live_verified else None,
