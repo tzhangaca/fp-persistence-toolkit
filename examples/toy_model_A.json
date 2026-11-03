@@ -1,0 +1,52 @@
+{
+  "audit_input_manifest": {
+    "audit_window": {
+      "end": "toy-day-1",
+      "start": "toy-day-1"
+    },
+    "context_assignment_sha256": "synthetic-one-stratum-v1",
+    "context_fallback": "none",
+    "context_specification": "one final stratum of all 12 events",
+    "dataset_sha256": "synthetic-fixture-12-legitimate-events-v1",
+    "eligible_entity_set_sha256": "synthetic-4-entity-3-events-v1",
+    "entity_definition": "synthetic customer ID: A/B/C/D",
+    "event_id_semantics": "toy unique events E01-E12",
+    "event_population_sha256": "synthetic-population-12-v1",
+    "exposure_bounds": {
+      "max": 3,
+      "min": 3
+    },
+    "false_positive_budget": 4,
+    "label_semantics": "all 12 synthetic rows verified legitimate; no positive fraud labels",
+    "legitimate_population_definition": "all twelve constructed legitimate records",
+    "operating_point": "preconstructed fixed-count binary false-positive flags",
+    "reference_method": "fixed K=4 of M=12, exact hypergeometric expectation"
+  },
+  "audit_result": {
+    "eligible_entity_count": 4,
+    "excess_repeat_fp_percentage_points": -23.636363636363644,
+    "observed_repeat_fp_proportion": 0.0,
+    "per_entity_flag_counts": {
+      "A": 1,
+      "B": 1,
+      "C": 1,
+      "D": 1
+    },
+    "provenance": "synthetic 12-event constructed example; reference analytically derived outside comparator",
+    "reference_expected_repeat_fp_proportion": 0.23636363636363644
+  },
+  "model_instance": {
+    "instance_id": "toy_model_A",
+    "procedure": "synthetic fixed-flag assignment",
+    "seed": null
+  },
+  "reported_metrics": {
+    "eligible_entity_count": 4,
+    "excess_repeat_fp_percentage_points": -23.636363636363644,
+    "false_positive_count": 4,
+    "observed_repeat_fp_proportion": 0.0,
+    "reference_expected_repeat_fp_proportion": 0.23636363636363644,
+    "repeated_fp_entity_count": 0,
+    "status": "ESTIMABLE"
+  }
+}

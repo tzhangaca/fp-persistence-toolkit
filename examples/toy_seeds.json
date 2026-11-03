@@ -1,0 +1,22 @@
+[
+  {
+    "procedure": "Toy classifier",
+    "seed": 0,
+    "excess_pp": 0.2
+  },
+  {
+    "procedure": "Toy classifier",
+    "seed": 1,
+    "excess_pp": 0.4
+  },
+  {
+    "procedure": "Toy classifier",
+    "seed": 2,
+    "excess_pp": 0.3
+  },
+  {
+    "procedure": "Toy classifier",
+    "seed": 3,
+    "excess_pp": 0.7
+  }
+]
