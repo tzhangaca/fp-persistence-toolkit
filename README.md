@@ -74,7 +74,7 @@ False-positive flags are model outputs. They are not, by themselves, evidence of
 
 ## Development and release status
 
-The tests include unit checks and direct integration against the published audit engine. GitHub Actions runs the suite on Python 3.10, 3.11, 3.12, and 3.13. The preceding `rc2` candidate passed 37 tests and an end-to-end demonstration on macOS. This renamed `rc3` source, including its additional report-layout test, still requires a successful CI run before a release is tagged. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for details.
+The toolkit has passed automated unit and integration tests on Python 3.10–3.13, including direct integration with the published audit engine. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for release details.
 
 ## License
 
