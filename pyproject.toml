@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fp-persistence-toolkit"
-version = "0.2.0"
-description = "Toolkit for auditing repeated false-positive concentration and comparing AI/ML fraud-screening model instances"
+version = "0.2.1"
+description = "Toolkit for auditing repeated false-positive recurrence and comparing AI/ML fraud-screening model instances"
 readme = "README.md"
 authors = [{name = "Tongchen Zhang"}]
 requires-python = ">=3.10,<3.14"
@@ -14,7 +14,7 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Information Analysis",
 ]
-dependencies = ["fp-persistence-audit==0.1.2"]
+dependencies = ["fp-persistence-audit>=0.1.2,<0.1.4"]
 
 [project.optional-dependencies]
 test = ["pytest>=7.4"]

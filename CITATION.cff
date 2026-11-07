@@ -5,13 +5,14 @@ title: "False-Positive Persistence Toolkit"
 authors:
   - family-names: Zhang
     given-names: Tongchen
-version: "0.2.0"
+version: "0.2.1"
+doi: "10.5281/zenodo.23907914"
 license: Apache-2.0
 repository-code: "https://github.com/tzhangaca/fp-persistence-toolkit"
 url: "https://github.com/tzhangaca/fp-persistence-toolkit"
 abstract: >-
   A Python toolkit for descriptive comparison of repeated false-positive
-  concentration across fitted fraud-screening model instances. It uses the
+  recurrence across fitted fraud-screening model instances. It uses the
   fp-persistence-audit engine to audit a shared legitimate-transaction population
   and checks input compatibility and context-specific false-positive allocation.
 keywords:

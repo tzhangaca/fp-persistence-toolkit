@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1
+
+- Corrected interpretation wording: excess persistence measures recurrence (the share of eligible entities with two or more false positives relative to the reference), not overall false-positive concentration or severity. Updated the README, package description and citation abstract.
+- Corrected one report message (`context_flag_allocation.interpretation`, shown when context allocations differ): "entity-level concentration" now reads "differences in which entities were flagged".
+- Accepts `fp-persistence-audit` `0.1.3` in addition to `0.1.2` (dependency `>=0.1.2,<0.1.4`; explicit runtime allowlist). The two engine versions were verified to produce identical results; other versions are still rejected.
+- Added two tests (accepted and rejected engine versions) and a CI matrix over both engine versions.
+- No changes to comparison calculations, report fields, the report schema (`0.2.0`) or the public API.
+
 ## 0.2.0
 
 - Added `CITATION.cff` and consistent software citation metadata.

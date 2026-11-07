@@ -1,6 +1,6 @@
-"""Actual v0.1.2 public audit engine -> two model-instance audit reports.
+"""Actual public audit engine -> two model-instance audit reports.
 
-This script requires the REAL pip-installed fp-persistence-audit==0.1.2.
+This script requires the REAL pip-installed fp-persistence-audit (v0.1.2 or v0.1.3).
 A synthetic 12-event fixture illustrates semantics; it is not empirical
 validation on real fraud data, and makes no performance/harm claim.
 """
@@ -38,6 +38,7 @@ assert comparison['reported_metrics']['right']['false_positive_count']==4
 output_dir=root/'demo_output';output_dir.mkdir(exist_ok=True)
 (output_dir/'comparison_report.json').write_text(json.dumps(comparison,indent=2,sort_keys=True,ensure_ascii=False)+'\n')
 (output_dir/'comparison_report.md').write_text(render_markdown(comparison))
-print('PASS — real published engine v0.1.2 -> verified-in-process descriptive comparison')
+from importlib.metadata import version
+print(f"PASS — real published engine v{version('fp-persistence-audit')} -> verified-in-process descriptive comparison")
 print('Results:',output_dir)
 print(render_markdown(comparison))

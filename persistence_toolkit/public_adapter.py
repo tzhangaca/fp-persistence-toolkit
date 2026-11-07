@@ -1,4 +1,4 @@
-"""Strict conversion of serialized v0.1.2 AuditResult to a comparison input.
+"""Strict conversion of a serialized schema-1.0 AuditResult (engine v0.1.2 or v0.1.3) to a comparison input.
 
 All numeric quantities are extracted from the source result, never accepted as
 separate user-supplied metrics. AuditResult itself is not recomputed.
@@ -16,7 +16,7 @@ class AuditSchemaError(ValueError): pass
 def from_v012_audit_result(result, *, model_instance, input_manifest, transaction_metrics=None):
     """Accept an AuditResult.to_dict() mapping or an object with to_dict().
 
-    Strictly uses original v0.1.2 scientific result fields; metadata identities
+    Strictly uses original schema-1.0 scientific result fields; metadata identities
     remain caller claims until independently fingerprinted against source data.
     """
     if not isinstance(result, dict):

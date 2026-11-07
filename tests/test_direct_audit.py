@@ -70,6 +70,21 @@ class TestDirectAudit(unittest.TestCase):
     audit_and_compare_shared_frame(ROWS,left_flag_col='flags_A',right_flag_col='flags_B',
      entity_col='entity_id',event_id_col='event_id',final_stratum_col='final_stratum',
      legitimate_col='legitimate',exposure=object(),permutation=object())
+ def _run_with_engine_version(self,version):
+  def versioned_audit(*args,**kwargs):
+   x=fake_audit(*args,**kwargs).to_dict()
+   x['provenance']['package_version']=version
+   return StubAuditResult(x)
+  with patch.dict(sys.modules,{'fp_persistence':types.SimpleNamespace(audit=versioned_audit)}):
+   return audit_and_compare_shared_frame(ROWS,left_flag_col='flags_A',right_flag_col='flags_B',
+    entity_col='entity_id',event_id_col='event_id',final_stratum_col='final_stratum',
+    legitimate_col='legitimate',exposure=object(),permutation=object())
+ def test_engine_v013_accepted(self):
+  self.assertEqual(self._run_with_engine_version('0.1.3')['comparison_status'],'COMPARABLE')
+ def test_unverified_engine_version_rejected(self):
+  for version in ('0.1.1','0.1.4','0.2.0'):
+   with self.subTest(version=version):
+    with self.assertRaises(ComparisonInputError):self._run_with_engine_version(version)
  def test_in_process_comparable(self):
   r=self.run_validated()
   self.assertEqual(r['comparison_status'],'COMPARABLE')

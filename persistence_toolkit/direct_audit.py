@@ -13,6 +13,10 @@ import pandas as pd
 from .comparison import compare_reports, _InProcessSourceVerification, _sha, ComparisonInputError
 from .public_adapter import from_v012_audit_result, fingerprint_public_frame
 
+# Public engine versions verified to produce identical schema-1.0 results.
+# Add a version only after it has been checked against these releases.
+_SUPPORTED_AUDIT_ENGINE_VERSIONS = ('0.1.2', '0.1.3')
+
 
 def _fingerprint_pairs(rows, columns):
     """Order-invariant digest for restricted public-demo primitive identifiers."""
@@ -76,7 +80,7 @@ def audit_and_compare_shared_frame(
     if not isinstance(audit_window,str) or not audit_window.strip():
         raise ComparisonInputError("audit_window must be a nonempty descriptive label")
 
-    # Pull the installed v0.1.2 public engine at runtime, not a private copy.
+    # Pull the installed public engine (a supported version) at runtime, not a private copy.
     from fp_persistence import audit
 
     shared=data[[event_id_col,entity_col,legitimate_col,final_stratum_col]].copy()
@@ -100,8 +104,8 @@ def audit_and_compare_shared_frame(
             raise ComparisonInputError("Public audit result does not match input event counts")
         if c['false_positive_event_count']!=int((data.loc[legit,flag]==1).sum()):
             raise ComparisonInputError("Public audit false-positive count does not match input flags")
-        if pr['package_version']!='0.1.2' or result['schema_version']!='1.0':
-            raise ComparisonInputError("Requires public audit engine v0.1.2 and result schema 1.0")
+        if pr['package_version'] not in _SUPPORTED_AUDIT_ENGINE_VERSIONS or result['schema_version']!='1.0':
+            raise ComparisonInputError("Requires public audit engine v0.1.2 or v0.1.3 and result schema 1.0")
 
     p0=raw_results[0]['population']; p1=raw_results[1]['population'];
     if p0['eligible_entity_count']!=p1['eligible_entity_count']:
@@ -157,7 +161,7 @@ def audit_and_compare_shared_frame(
     for instance_id, r in zip((left_instance_id,right_instance_id),raw_results):
         reports.append(from_v012_audit_result(r, model_instance={'instance_id':instance_id,'procedure':'user-supplied trained model or flags'},input_manifest=common))
     verified=_InProcessSourceVerification(left_sha256=_sha(reports[0]),right_sha256=_sha(reports[1]),
-                frame_sha256=source_hash,audit_engine='fp-persistence-audit==0.1.2')
+                frame_sha256=source_hash,audit_engine='fp-persistence-audit=='+raw_results[0]['provenance']['package_version'])
     output=compare_reports(*reports,_verified=verified)
     output['context_flag_allocation']={
         'status':'MATCH' if same_context_budgets else 'DIFFERENT',
@@ -166,7 +170,7 @@ def audit_and_compare_shared_frame(
             if same_context_budgets else
             'Total FP budgets match, but their distributions across resolved contexts differ. '
             'Their conditional reference expectations may differ; do not attribute '
-            'the excess gap solely to entity-level concentration.'),
+            'the excess gap solely to differences in which entities were flagged.'),
     }
     output['data_origin_disclosure']=( 
         'A single shared event/entity/label/context frame was audited twice in this process. '

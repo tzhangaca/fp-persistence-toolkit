@@ -1,4 +1,4 @@
-"""Integration tests use the REAL installed public v0.1.2 engine.
+"""Integration tests use the REAL installed public engine (v0.1.2 or v0.1.3).
 
 Skipped only when that dependency is absent (e.g. isolated offline review).
 The GitHub Actions matrix installs it and MUST run this file.

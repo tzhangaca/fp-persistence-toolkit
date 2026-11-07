@@ -2,9 +2,9 @@
 
 A Python companion to [fp-persistence-audit](https://github.com/tzhangaca/fp-persistence-audit), designed to compare repeated false-positive patterns across two fitted fraud-screening model instances.
 
-Fraud-screening models can produce similar transaction-level metrics while concentrating false-positive flags on different returning accounts. This toolkit compares entity-level recurrence on a shared set of legitimate transactions. It calls the published `fp-persistence-audit==0.1.2` engine for each audit and presents the results side by side. It does not train a fraud model or replace the underlying audit engine.
+Fraud-screening models can produce similar transaction-level metrics while differing in how many returning accounts receive repeated false-positive flags. This toolkit compares entity-level recurrence on a shared set of legitimate transactions. It calls the published `fp-persistence-audit` engine (v0.1.2 or v0.1.3, which produce identical results) for each audit and presents the results side by side. It does not train a fraud model or replace the underlying audit engine.
 
-The toolkit is distributed as open source through GitHub. The current package version is `0.2.0`; see GitHub Releases for tagged snapshots. It is not currently available through PyPI.
+The toolkit is distributed as open source through GitHub. The current package version is `0.2.1`; see GitHub Releases for tagged snapshots. It is not currently available through PyPI.
 
 ## Installation
 
@@ -18,6 +18,12 @@ python -m pip install -e '.[test]'
 
 The package installs the published audit engine as a dependency.
 
+To install the tagged release without cloning (requires `git`):
+
+```bash
+python -m pip install "fp-persistence-toolkit @ git+https://github.com/tzhangaca/fp-persistence-toolkit.git@v0.2.1"
+```
+
 ## Quick start
 
 Run the tests and the included example:
@@ -27,7 +33,7 @@ python -m unittest discover -s tests -v
 python examples/public_engine_end_to_end.py
 ```
 
-The example creates twelve artificial legitimate transactions and evaluates two different sets of false-positive flags. Both have four false positives, but those flags recur on different numbers of entities. It writes `demo_output/comparison_report.json` and `demo_output/comparison_report.md`.
+The example creates twelve artificial legitimate transactions and evaluates two different sets of false-positive flags. Both have four false positives, but those flags recur on different numbers of entities. It writes `demo_output/comparison_report.json` and `demo_output/comparison_report.md`. The JSON report records execution timestamps (and source hashes that include them), so its file hash changes between otherwise identical runs; the Markdown report and the scientific fields are stable.
 
 For a live comparison, supply one event table with two flag columns and preassigned context strata:
 
@@ -68,17 +74,19 @@ The live workflow checks that the models are evaluated on the same event, entity
 
 The report also records whether the two models allocate the same number of false positives to each resolved context (`MATCH` or `DIFFERENT`). If context-specific counts differ, reference expectations may differ as well; the excess-persistence gap should not be attributed solely to changes in which entities were flagged.
 
+Excess persistence compares the share of eligible entities with two or more false positives against the reference expectation. It is not a monotonic measure of overall false-positive concentration or severity. A model with lower excess persistence can still place more false positives on fewer entities, because counts above two are not summarized. Do not read a lower or negative excess as "less concentrated" or "less burdensome" without also comparing the per-entity false-positive count distribution, computed separately.
+
 These checks make the reports easier to interpret, but do not authenticate transaction histories or prove that supplied labels are correct. The output is descriptive, not a statistical test of model superiority, an equivalence test, or a recommendation to deploy one model over another. PR-AUC and ROC-AUC are not calculated from the legitimate-only audit input; any external values must be sourced and checked separately.
 
 False-positive flags are model outputs. They are not, by themselves, evidence of extra verification, declined payments, lost sales, or consumer harm. Reports may include metadata provided by the caller, so review JSON files for sensitive information before sharing them. SHA256 hashes support input consistency checks but are not a privacy safeguard or a digital signature.
 
 ## Development and release status
 
-Version `0.2.0` retains the comparison code tested in the `0.2.0rc3` pre-release and adds software citation metadata. GitHub Actions runs the 38 unit and integration tests with the published audit engine on Python 3.10–3.13. Check the latest Actions run for the test outcome before using a newly tagged version. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for release details.
+Version `0.2.1` corrects interpretation wording (one report message and the documentation) and accepts audit engine `0.1.3` in addition to `0.1.2`; comparison calculations, report fields and the report schema are unchanged (see [CHANGELOG.md](CHANGELOG.md)). GitHub Actions runs the 40 unit and integration tests on Python 3.10–3.13 against both supported engine versions. Check the latest Actions run for the test outcome before using a newly tagged version. See [RELEASE_STATUS.md](RELEASE_STATUS.md) for release details.
 
 ## Citation
 
-For software citation metadata, see [CITATION.cff](CITATION.cff). The DOI will be added after Zenodo archives a tagged release.
+For software citation metadata, see [CITATION.cff](CITATION.cff). All versions are archived on Zenodo under the concept DOI [https://doi.org/10.5281/zenodo.23907914](https://doi.org/10.5281/zenodo.23907914); version `0.2.0` is [https://doi.org/10.5281/zenodo.23907916](https://doi.org/10.5281/zenodo.23907916).
 
 ## License
 

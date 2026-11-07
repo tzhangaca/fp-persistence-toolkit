@@ -13,21 +13,22 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
+        audit-version: ["0.1.2", "0.1.3"]
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install published engine and companion
-        run: python -m pip install -e '.[test]'
+        run: python -m pip install -e '.[test]' "fp-persistence-audit==${{ matrix.audit-version }}"
       - name: Confirm package versions
         run: |
-          python -c "from importlib.metadata import version; assert version('fp-persistence-audit') == '0.1.2'; assert version('fp-persistence-toolkit') == '0.2.0'"
+          python -c "from importlib.metadata import version; assert version('fp-persistence-audit') == '${{ matrix.audit-version }}'; assert version('fp-persistence-toolkit') == '0.2.1'"
           python -c "import persistence_toolkit; print(persistence_toolkit.__file__)"
       - name: Unit and integration tests
         run: |
           python -m unittest discover -s tests -v 2>&1 | tee unit-tests.log
-          grep -q 'Ran 38 tests' unit-tests.log
+          grep -q 'Ran 40 tests' unit-tests.log
           ! grep -q -E 'skipped|FAILED|ERROR' unit-tests.log
       - name: Real-engine example
         run: python examples/public_engine_end_to_end.py
